@@ -7,7 +7,8 @@ function calculator() {
 //Create array of acceptable operations (add='+', etc)
     var operators = ["+", "-", "*", "/", "^", "%"];
 //Split the input value into an array of separate characters ('1+2' now is and array['1','+','2'])
-    var inputTokens = (input.value).split("");
+    var inputTokens = (input.value).replace(/\s/gm,"").split("");
+//Use regular exp to delete any whitespace in input field
     console.log(inputTokens);
 //Creating Variables to hold first number 'x', second number 'y', and the feature/operator
      var tokenX = 0;
@@ -33,17 +34,19 @@ function calculator() {
    } else {
      i=0;
    }
-      for(; operators.includes(inputTokens[i])!==true; i++){
+      for(; inputTokens[i]!==ops[0]; i++){
          if (i >= inputTokens.length) {break;}
          tokenX += inputTokens[i];
        }
+
+       console.log('This is i: '+i);
 //Turn 'x' string into a number
      if (inputTokens[0]==="-") {
        var x = (0-parseFloat(tokenX));
      } else {
      var x = parseFloat(tokenX);
      }
-     console.log('Token X is '+tokenX);
+     //console.log('Token X is '+tokenX);
      console.log('x='+x);
 //Concate "input tokens" after the operator until the end of string. This creates 'y' (123+321 will leave 321)
    if(inputTokens[0]=="-") {
@@ -56,7 +59,7 @@ function calculator() {
        tokenY += inputTokens[i];
      }
      var y = parseFloat(tokenY);
-     console.log('Token Y is '+tokenY);
+     //console.log('Token Y is '+tokenY);
      console.log('y='+y);
 //Find the operator
   // if (x >= 0){
@@ -82,7 +85,7 @@ function calculator() {
         }
       }
       }
-        if (ops===undefined) {
+        if (ops=="") {
           answerBox.innerHTML = '<strong>'+x+'</strong>';
         } else {
         answerBox.innerHTML = +x+ops+y+' = <strong>'+operation(x,y,ops)+'</strong>';
