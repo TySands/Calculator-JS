@@ -12,36 +12,65 @@ function calculator() {
 //Creating Variables to hold first number 'x', second number 'y', and the feature/operator
      var tokenX = 0;
      var tokenY = 0;
-     var ops = null;
+     var ops = [];
+
+     if (inputTokens[0]=="-") {
+       i=1;
+     } else {
+       i=0;
+     }
+    for(; i<inputTokens.length; i++) {
+      if (operators.includes(inputTokens[i])===true) {
+        ops.push(inputTokens[i]);
+        console.log('Ops is '+inputTokens[i]+'; i is '+i);
+    }
+  }
+
 
 //Concate "input tokens" until you reach a "feature", this creates 'x'. ('123+321' will leave 123)
-      for(i=0; operators.includes(inputTokens[i])!==true; i++){
+   if (inputTokens[0]=="-") {
+     i=1;
+   } else {
+     i=0;
+   }
+      for(; operators.includes(inputTokens[i])!==true; i++){
          if (i >= inputTokens.length) {break;}
          tokenX += inputTokens[i];
        }
-
 //Turn 'x' string into a number
      if (inputTokens[0]==="-") {
        var x = (0-parseFloat(tokenX));
      } else {
      var x = parseFloat(tokenX);
      }
+     console.log('Token X is '+tokenX);
      console.log('x='+x);
 //Concate "input tokens" after the operator until the end of string. This creates 'y' (123+321 will leave 321)
-     for(i=tokenX.length; i < inputTokens.length; i++){
+   if(inputTokens[0]=="-") {
+     i=tokenX.length+1;
+   } else {
+     i=tokenX.length;
+   }
+     //console.log('i = '+i);
+     for(; i < inputTokens.length; i++){
        tokenY += inputTokens[i];
      }
      var y = parseFloat(tokenY);
+     console.log('Token Y is '+tokenY);
      console.log('y='+y);
 //Find the operator
-     var ops = inputTokens[parseFloat(tokenX.length)-1];
-     console.log('The operation is '+ops);
+  // if (x >= 0){
+  //   var ops = inputTokens[parseFloat(tokenX.length)-1];
+  // } else {
+  //   var ops = inputTokens[parseFloat(tokenX.length)];
+  // }
+    console.log('The operation is '+ops);
 //Run the operation
      function operation(x,y,ops) {
-       if (ops===undefined) {
+       if (ops[0]===undefined) {
          return x;
        } else {
-       switch (ops){
+       switch (ops[0]){
          case ('+'): return x+y;
          case ('-'): return x-y;
          case ('*'): return x*y;
