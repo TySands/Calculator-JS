@@ -14,6 +14,9 @@ function calculator() {
      var tokenX = 0;
      var tokenY = 0;
      var ops = [];
+     var opsPos = [];
+     var numbers = [];
+     var ans = 0;
 
      if (inputTokens[0]=="-") {
        i=1;
@@ -23,10 +26,12 @@ function calculator() {
     for(; i<inputTokens.length; i++) {
       if (operators.includes(inputTokens[i])===true) {
         ops.push(inputTokens[i]);
-        console.log('Ops is '+inputTokens[i]+'; i is '+i);
+        opsPos.push(i);
+      //  console.log('Ops is '+inputTokens[i]+'; i is '+i);
     }
   }
-
+  console.log(opsPos);
+  console.log(ops);
 
 //Concate "input tokens" until you reach a "feature", this creates 'x'. ('123+321' will leave 123)
    if (inputTokens[0]=="-") {
@@ -39,41 +44,51 @@ function calculator() {
          tokenX += inputTokens[i];
        }
 
-       console.log('This is i: '+i);
+  //     console.log('This is i: '+i);
 //Turn 'x' string into a number
      if (inputTokens[0]==="-") {
-       var x = (0-parseFloat(tokenX));
+        x = (0-parseFloat(tokenX));
      } else {
-     var x = parseFloat(tokenX);
+        x = parseFloat(tokenX);
      }
+
+     numbers.push(x);
      //console.log('Token X is '+tokenX);
-     console.log('x='+x);
+     console.log('x='+numbers[0]);
 //Concate "input tokens" after the operator until the end of string. This creates 'y' (123+321 will leave 321)
-   if(inputTokens[0]=="-") {
-     i=tokenX.length+1;
-   } else {
-     i=tokenX.length;
-   }
+
      //console.log('i = '+i);
-     for(; i < inputTokens.length; i++){
+     for(j=0; j<ops.length; j++){
+       for(i=opsPos[j]+1; i < inputTokens.length; i++){
+       if (operators.includes(inputTokens[i])===true) {break};
        tokenY += inputTokens[i];
-     }
-     var y = parseFloat(tokenY);
+       }
+     y = parseFloat(tokenY);
+     tokenY = 0;
+     numbers.push(y);
      //console.log('Token Y is '+tokenY);
      console.log('y='+y);
+     }
+     console.log('numbers array ='+numbers);
+//debugger;
+
 //Find the operator
   // if (x >= 0){
   //   var ops = inputTokens[parseFloat(tokenX.length)-1];
   // } else {
   //   var ops = inputTokens[parseFloat(tokenX.length)];
   // }
-    console.log('The operation is '+ops);
+  //  console.log('The operation is '+ops+' and the opsPos is '+opsPos);
 //Run the operation
+
+
      function operation(x,y,ops) {
-       if (ops[0]===undefined) {
+   for(i=0; i< ops.length ;i++) {
+       if (ops[i]===undefined) {
          return x;
        } else {
-       switch (ops[0]){
+  //  ans = function(x,y,ops){
+       switch (ops[i]){
          case ('+'): return x+y;
          case ('-'): return x-y;
          case ('*'): return x*y;
@@ -84,11 +99,13 @@ function calculator() {
           default: prompt("Error, Enter Feature or Exit [type 'quit' to exit]?");
         }
       }
-      }
+  //  }
+    }
+  }
         if (ops=="") {
-          answerBox.innerHTML = '<strong>'+x+'</strong>';
+          answerBox.innerHTML = '<strong>'+numbers[0]+'</strong>';
         } else {
-        answerBox.innerHTML = +x+ops+y+' = <strong>'+operation(x,y,ops)+'</strong>';
+        answerBox.innerHTML = +numbers[0]+ops[0]+numbers[1]+' = <strong>'+operation(numbers[0],numbers[1],ops)+'</strong>';
       }
       }
 
