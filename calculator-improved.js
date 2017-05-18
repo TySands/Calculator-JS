@@ -81,31 +81,36 @@ function calculator() {
   //  console.log('The operation is '+ops+' and the opsPos is '+opsPos);
 //Run the operation
 
-
-     function operation(x,y,ops) {
-   for(i=0; i< ops.length ;i++) {
-       if (ops[i]===undefined) {
-         return x;
-       } else {
-  //  ans = function(x,y,ops){
-       switch (ops[i]){
-         case ('+'): return x+y;
-         case ('-'): return x-y;
-         case ('*'): return x*y;
-         case ('/'): return x/y;
-         case ('^'): return Math.pow(x,y);
-         case ('%'): return x%y;
-         //case (null): return x;
-          default: prompt("Error, Enter Feature or Exit [type 'quit' to exit]?");
-        }
+  function operation(x,y,ops){
+    switch (ops[i]){
+       case ('+'): return x+y;
+       case ('-'): return x-y;
+       case ('*'): return x*y;
+       case ('/'): return x/y;
+       case ('^'): return Math.pow(x,y);
+       case ('%'): return x%y;
+       //case (null): return x;
+        default: prompt("Error, Enter Feature or Exit [type 'quit' to exit]?");
       }
-  //  }
+    }
+
+  function equals(x,ops) {
+    if (ops[0]===undefined) {
+      return x;
+     } else {
+      ans = x;
+   for(i=0; i< ops.length ; i++) {
+      var holder = operation(ans,numbers[i+1],ops);
+      console.log('Now ans is '+holder);
+      ans = holder;
+      }
     }
   }
         if (ops=="") {
           answerBox.innerHTML = '<strong>'+numbers[0]+'</strong>';
         } else {
-        answerBox.innerHTML = +numbers[0]+ops[0]+numbers[1]+' = <strong>'+operation(numbers[0],numbers[1],ops)+'</strong>';
+        equals(numbers[0],ops)
+        answerBox.innerHTML = inputTokens.join("")+' = <strong>'+ans+'</strong>';
       }
       }
 
